@@ -24,9 +24,22 @@ async function getAllDataFromDB() {
   return rows;
 }
 
+async function updateMembershipStatus(id) {
+  const {rows} = await pool.query(`
+    UPDATE users
+    SET membership_status = 'member'
+    WHERE id = $1
+    RETURNING *;
+      `, [id]
+      );
+    return rows[0];
+}
+
+
 export {
   addNewUserToDB,
   getAllDataFromDB,
+  updateMembershipStatus,
 
 }
 

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('./partials/head.ejs')%>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- <script src="./js/script.js"defer></script> -->
+    <title>Upgrade</title>
+  </head>
+<body>
+  <h1><%= title %></h1> 
+  <form action="/upgrade" method="POST">
+    
+    <label for="upgradeAnswer">How much is 12+8?</label>
+    <input id="upgradeAnswer" name="upgradeAnswer" placeholder="Enter your answer" type="number" autocomplete="upgradeAnswer"/>
+    <button type="submit">Submit</button>
+    
+  </form>
+</body>
+</html>

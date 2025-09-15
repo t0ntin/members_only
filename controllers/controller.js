@@ -1,4 +1,4 @@
-import {addNewUserToDB, getAllDataFromDB} from '../db/queries.js';
+import {addNewUserToDB, getAllDataFromDB, updateMembershipStatus} from '../db/queries.js';
 
 
 async function getSignInView (req, res) {
@@ -28,13 +28,31 @@ async function signUpPost(req, res, next) {
   }
 }
 
+function getUpgradeView(req, res) {
+  res.render('upgrade', {title: "Upgrade"})
+}
 
+async function postUpgradeView(req, res) {
+  const answer = Number(req.body.upgradeAnswer);
+  console.log(answer);
+  // const status = req.user.membership_status;
+  const id = req.user.id;
+  if (answer === 21) {
+
+    await updateMembershipStatus(id);
+    
+  }
+  res.redirect('/');
+  
+}
 
 export {
   getSignInView,
   getSignUpView,
   signUpPost,
-  
+  getUpgradeView,
+  postUpgradeView,
+
 
 
 }
