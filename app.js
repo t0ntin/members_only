@@ -8,6 +8,7 @@ import pool from './db/pool.js';
 import { Strategy as LocalStrategy } from 'passport-local';
 import connectPgSimple from "connect-pg-simple";
 import router from './routes/router.js';
+import bcrypt from 'bcryptjs';
 
 const PgSession = connectPgSimple(session);
 
@@ -38,23 +39,30 @@ app.use(passport.session());
 
 
 passport.use(
-  new LocalStrategy(async (username, password, done) => {
-    try {
-      const { rows } = await pool.query("SELECT * FROM users WHERE username = $1", [username]);
-      const user = rows[0];
-      if (!user) {
-        return done(null, false, { message: "Incorrect username" });
+  new LocalStrategy(
+    { usernameField: "email", passwordField: "password" }, 
+    async (email, password, done) => {
+      try {
+        const { rows } = await pool.query(
+          "SELECT * FROM users WHERE email = $1",
+          [email]
+        );
+        const user = rows[0];
+        if (!user) {
+          return done(null, false, { message: "Incorrect email" });
+        }
+        const match = await bcrypt.compare(password, user.password_hash); 
+        if (!match) {
+          return done(null, false, { message: "Incorrect password" });
+        }
+        return done(null, user);
+      } catch (err) {
+        return done(err);
       }
-      const match = await bcrypt.compare(password, user.password);
-      if (!match) {
-        return done(null, false, { message: "Incorrect password" });
-      }
-      return done(null, user);
-    } catch (err) {
-      return done(err);
     }
-  })
+  )
 );
+
 
 passport.serializeUser((user, done) => {
   done(null, user.id);
@@ -94,10 +102,10 @@ app.get("/log-out", (req, res, next) => {
 app.use('/', router);
 
 // ADDED BY CHAT GPT TO CATCH ERROR
-app.use((req, res, next) => {
-  console.log("Login messages:", req.session.messages);
-  next();
-});
+// app.use((req, res, next) => {
+//   console.log("Login messages:", req.session.messages);
+//   next();
+// });
 
 
 app.use((req, res) => {

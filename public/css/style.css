@@ -53,9 +53,22 @@ img {
 
 
 a {
-  color: white;
+  color: #2dcbff;
   text-decoration: none;
+  padding: 2px 6px;
+  border-radius: 6px;
 }
+
+a:hover {
+  /* background-color: #00bfff; */
+  color: #a1e8fc;
+}
+
+a:active {
+  background-color: #0080ff;
+  color: #fff;
+}
+
 
 * {
   margin: 0;

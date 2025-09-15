@@ -11,13 +11,35 @@
 </head>
 <body>
   <% if (locals.user) {%>
-    <h1>WELCOME BACK <%= user.username %></h1>
+    <h1>Welcome back, <%= user.first_name %></h1>
+    <% if (user.membership_status === 'guest') { %>
+      <p>You are a guest. If you'd like upgrade your membership to see all message details,  <a href="/upgrade">click here</a> .</p>
+        <% if (messages) { %>
+          <% messages.forEach((message) => { %>
+            <div class="msg-container">
+              <div class="msg-title">Title: Upgrade to view</div>
+              <div class="msg-content">Message: Upgrade to view</div>
+              <div class="msg-author">By: <%= message.first_name %> <%= message.last_name %></div>
+              <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
+            </div>
+          <% }) %>
+        <% } %>
+    <% } else if (user.membership_status = 'member') { %>
+      <% messages.forEach((message) => { %>
+        <div class="msg-container">
+          <div class="msg-title">Title: <%= message.title %></div>
+          <div class="msg-content">Message: <%= message.content %></div>
+          <div class="msg-author">By: <%= message.first_name %> <%= message.last_name %></div>
+          <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
+        </div>
+        <% }) %>
+    <%} %>  
     <a href="/log-out">LOG OUT</a>
   <% } else { %>
     <h1><%= title %></h1>
     <form action="/log-in" method="POST">
-      <label for="username">Username</label>
-      <input id="username" name="username" placeholder="username" type="text" autocomplete="username" />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" autocomplete="email"/>
       <label for="password">Password</label>
       <input id="password" name="password" type="password" autocomplete="current-password" />
       <button type="submit">Log In</button>
