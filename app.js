@@ -6,8 +6,8 @@ import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import pool from './db/pool.js';
 import { Strategy as LocalStrategy } from 'passport-local';
-import bcrypt from 'bcryptjs';
 import connectPgSimple from "connect-pg-simple";
+import router from './routes/router.js';
 
 const PgSession = connectPgSimple(session);
 
@@ -69,22 +69,11 @@ passport.deserializeUser(async (id, done) => {
   }
 });
 
-app.get("/", (req, res) => {
-  res.render("index", { user: req.user });
-});
 
-app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
-app.post("/sign-up", async (req, res, next) => {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    await pool.query("INSERT INTO users (username, password) VALUES ($1, $2)", [req.body.username, hashedPassword]);
-    res.redirect("/");
-  } catch (error) {
-    console.error(error);
-    next(error);
-  }
-});
+
+
+
 
 app.post(
   "/log-in",
@@ -101,6 +90,8 @@ app.get("/log-out", (req, res, next) => {
     res.redirect("/");
   });
 });
+
+app.use('/', router);
 
 // ADDED BY CHAT GPT TO CATCH ERROR
 app.use((req, res, next) => {

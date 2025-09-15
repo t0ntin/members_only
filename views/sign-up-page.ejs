@@ -12,10 +12,20 @@
 <body>
   <h1>Sign up!</h1>
   <form action="/sign-up" method="POST">
-    <label for="username">Username</label>
-    <input id="username" name="username" placeholder="username" type="text" autocomplete="username"/>
+    <label for="firstName">First name</label>
+    <input id="firstName" name="firstName" placeholder="First name" type="text" autocomplete="firstName"/>
+
+    <label for="lastName">Last name</label>
+    <input id="lastName" name="lastName" placeholder="lastName" type="text" autocomplete="lastName"/>
+
+    <label for="email">Email</label>
+    <input id="email" name="email" type="email" autocomplete="email"/>
+
     <label for="password">Password</label>
     <input id="password" name="password" type="password" autocomplete="current-password"/>
+
+  
+
     <button type="submit">Sign Up</button>
   </form>
 </body>
