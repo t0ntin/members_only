@@ -1,0 +1,205 @@
+{
+  "auditReportVersion": 2,
+  "vulnerabilities": {
+    "body-parser": {
+      "name": "body-parser",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        "debug"
+      ],
+      "effects": [
+        "express"
+      ],
+      "range": ">=1.12.0",
+      "nodes": [
+        "node_modules/body-parser"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "debug": {
+      "name": "debug",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        {
+          "source": 1107274,
+          "name": "debug",
+          "dependency": "debug",
+          "title": "Malware in debug",
+          "url": "https://github.com/advisories/GHSA-8mgj-vmr8-frr6",
+          "severity": "critical",
+          "cwe": [
+            "CWE-506"
+          ],
+          "cvss": {
+            "score": 0,
+            "vectorString": null
+          },
+          "range": ">=0"
+        }
+      ],
+      "effects": [
+        "body-parser",
+        "express",
+        "express-session",
+        "finalhandler",
+        "router",
+        "send"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/debug",
+        "node_modules/express-session/node_modules/debug"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "express": {
+      "name": "express",
+      "severity": "critical",
+      "isDirect": true,
+      "via": [
+        "body-parser",
+        "debug",
+        "finalhandler",
+        "router",
+        "send",
+        "serve-static"
+      ],
+      "effects": [],
+      "range": ">=3.0.0-alpha1",
+      "nodes": [
+        "node_modules/express"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "express-session": {
+      "name": "express-session",
+      "severity": "critical",
+      "isDirect": true,
+      "via": [
+        "debug"
+      ],
+      "effects": [],
+      "range": ">=1.0.1",
+      "nodes": [
+        "node_modules/express-session"
+      ],
+      "fixAvailable": {
+        "name": "express-session",
+        "version": "1.0.0",
+        "isSemVerMajor": true
+      }
+    },
+    "finalhandler": {
+      "name": "finalhandler",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        "debug"
+      ],
+      "effects": [
+        "express"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/finalhandler"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "router": {
+      "name": "router",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        "debug"
+      ],
+      "effects": [
+        "express"
+      ],
+      "range": "1.0.0-beta.1 - 2.0.0-beta.2 || >=2.2.0",
+      "nodes": [
+        "node_modules/router"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "send": {
+      "name": "send",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        "debug"
+      ],
+      "effects": [
+        "serve-static"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/send"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    },
+    "serve-static": {
+      "name": "serve-static",
+      "severity": "critical",
+      "isDirect": false,
+      "via": [
+        "send"
+      ],
+      "effects": [
+        "express"
+      ],
+      "range": "*",
+      "nodes": [
+        "node_modules/serve-static"
+      ],
+      "fixAvailable": {
+        "name": "express",
+        "version": "2.5.11",
+        "isSemVerMajor": true
+      }
+    }
+  },
+  "metadata": {
+    "vulnerabilities": {
+      "info": 0,
+      "low": 0,
+      "moderate": 0,
+      "high": 0,
+      "critical": 8,
+      "total": 8
+    },
+    "dependencies": {
+      "prod": 101,
+      "dev": 0,
+      "optional": 1,
+      "peer": 0,
+      "peerOptional": 0,
+      "total": 101
+    }
+  }
+}
