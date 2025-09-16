@@ -1,14 +1,71 @@
 import {addNewUserToDB, getAllDataFromDB, updateMembershipStatus, postMessageToDB} from '../db/queries.js';
 import { body, validationResult } from "express-validator";
+import bcrypt from 'bcryptjs';
+import passport from 'passport';
 
-async function getSignInView (req, res) {
+const validateUser = [
+  body('email').trim().isEmail().withMessage('Enter a valid email').normalizeEmail(),
+  body("password")
+  .isLength({ min: 6 })
+  .withMessage("Password must be at least 6 characters long"),
+]
+
+ async function getSignInView (req, res) {
   const messages = await getAllDataFromDB();
-  console.log('All info is: ', messages);
-  console.log('req.user is: ', req.user);
+  // console.log('All info is: ', messages);
+  // console.log('req.user is: ', req.user);
   res.render("index", { title: "Sign in", user: req.user, messages });
+ }
   
-}
+ const postSignInView = [
+  validateUser,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("index", { 
+        title: "Sign in", 
+        user: null, 
+        oldInput: req.body, 
+        errors: errors.array(), 
+        messages: [] 
+      });
+    }
 
+    passport.authenticate("local", async (err, user, info) => {
+      if (err) return next(err);
+
+      if (!user) {
+        return res.status(401).render("index", {
+          title: "Sign in",
+          user: null,
+          oldInput: req.body,
+          errors: [{ msg: info?.message || "Invalid credentials" }],
+          messages: []
+        });
+      }
+
+      req.logIn(user, async (err) => {
+        if (err) return next(err);
+
+        const messages = await getAllDataFromDB();
+        res.render("index", { 
+          title: "Sign in", 
+          user: req.user, 
+          oldInput: {}, 
+          errors: [], 
+          messages 
+        });
+      });
+    })(req, res, next);
+  }
+];
+
+function getLogOut (req, res, next) {
+      req.logout((err) => {
+        if (err) return next(err);
+        res.redirect("/");
+      });
+}
 
 async function getSignUpView(req, res) {
   res.render('sign-up-page', {title: 'Sign up'});
@@ -18,7 +75,7 @@ async function signUpPost(req, res, next) {
   try {
     const hashedPassword = await bcrypt.hash(req.body.password, 10);
     const {firstName, lastName, email} = req.body;
-    await addNewUserToDB(firstName, lastName,email, hashedPassword);
+    await addNewUserToDB(firstName, lastName, email, hashedPassword);
     res.redirect('/');
 
   } catch (error) {
@@ -28,7 +85,7 @@ async function signUpPost(req, res, next) {
 }
 
 function getUpgradeView(req, res) {
-  res.render('upgrade', {title: "Upgrade"})
+  res.render('upgrade', {title: "Upgrade", answer: null})
 }
 
 async function postUpgradeView(req, res) {
@@ -38,8 +95,11 @@ async function postUpgradeView(req, res) {
   const id = req.user.id;
   if (answer === 21) {
     await updateMembershipStatus(id);
+    res.redirect('/');
+  } else {
+
+    res.render('upgrade', {title: 'Upgrade', answer});
   }
-  res.redirect('/');
   
 }
 
@@ -55,12 +115,13 @@ async function postPostmessageView(req, res) {
 
 export {
   getSignInView,
+  postSignInView,
   getSignUpView,
   signUpPost,
   getUpgradeView,
   postUpgradeView,
   getPostMessageView,
   postPostmessageView,
-
+  getLogOut,
 
 }

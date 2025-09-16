@@ -130,6 +130,9 @@ main {
   text-align: right;
 }
 
+.guest {
+  color: darkgray;
+}
 
 form {
   max-width: 600px;
@@ -189,8 +192,9 @@ button:hover {
   background-color: #0056b3;
 }
 
-
-
+li {
+  color: red;
+}
 
 
 

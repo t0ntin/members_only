@@ -7,13 +7,23 @@
     <title>Upgrade</title>
   </head>
 <body>
-  <h1><%= title %></h1> 
-  <form action="/upgrade" method="POST">
+  <% if (answer === null) { %>
+    <h1><%= title %></h1> 
+    <form action="/upgrade" method="POST">
+      <label for="upgradeAnswer">How much is 12+8?</label>
+      <input id="upgradeAnswer" name="upgradeAnswer" placeholder="Enter your answer" type="number" autocomplete="upgradeAnswer"/>
+      <button type="submit">Submit</button>
+      
+    </form>
+    <% }  else if (answer !== 21) { %>
+      <h1><%= title %></h1> 
+      <form action="/upgrade" method="POST">
+        <label for="upgradeAnswer">How much is 12+8?</label>
+        <input id="upgradeAnswer" name="upgradeAnswer" placeholder="Enter your answer" type="number" autocomplete="upgradeAnswer"/>
+        <li> Incorrect answer. Try again.</li>
+        <button type="submit">Submit</button>
+      </form>
+  <% } %>
     
-    <label for="upgradeAnswer">How much is 12+8?</label>
-    <input id="upgradeAnswer" name="upgradeAnswer" placeholder="Enter your answer" type="number" autocomplete="upgradeAnswer"/>
-    <button type="submit">Submit</button>
-    
-  </form>
 </body>
 </html>

@@ -1,8 +1,10 @@
 import express from 'express';
-import { getSignInView, getSignUpView, signUpPost, getUpgradeView, postUpgradeView, getPostMessageView,postPostmessageView} from '../controllers/controller.js';
+import { getSignInView, postSignInView, getSignUpView, signUpPost, getUpgradeView, postUpgradeView, getPostMessageView,postPostmessageView, getLogOut} from '../controllers/controller.js';
 const router = express.Router();
 
 router.get('/', getSignInView);
+router.post('/sign-in', postSignInView);
+router.get('/log-out', getLogOut);
 
 router.get('/sign-up-page', getSignUpView);
 router.post('/sign-up', signUpPost);

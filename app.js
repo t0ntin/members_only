@@ -79,26 +79,6 @@ passport.deserializeUser(async (id, done) => {
 
 
 
-
-
-
-
-app.post(
-  "/log-in",
-  passport.authenticate("local", {
-    successRedirect: "/",
-    failureRedirect: "/",
-    failureMessage: true,
-  })
-);
-
-app.get("/log-out", (req, res, next) => {
-  req.logout((err) => {
-    if (err) return next(err);
-    res.redirect("/");
-  });
-});
-
 app.use('/', router);
 
 // ADDED BY CHAT GPT TO CATCH ERROR
