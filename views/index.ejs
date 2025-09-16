@@ -7,16 +7,18 @@
   <title>Home</title>
 </head>
 <body>
-  <% if (locals.user) {%>
+  <main>
+      <% if (locals.user) {%>
     <h1>Welcome back, <%= user.first_name %></h1>
+    <a href="post-message">Post message</a>
     <% if (user.membership_status === 'guest') { %>
       <p>You are a guest. If you'd like upgrade your membership to see all message details,  <a href="/upgrade">click here.</a> </p>
         <% if (messages) { %>
           <% messages.forEach((message) => { %>
             <div class="msg-container">
-              <div class="msg-title">Title: Upgrade to view</div>
-              <div class="msg-content">Message: Upgrade to view</div>
-              <div class="msg-author">By: <%= message.first_name %> <%= message.last_name %></div>
+              <div class="msg-title"> <strong>Title:</strong>  Upgrade to view</div>
+              <div class="msg-content"><strong>Message: </strong>  Upgrade to view</div>
+              <div class="msg-author"><strong>By: </strong>  <%= message.first_name %> <%= message.last_name %></div>
               <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
             </div>
           <% }) %>
@@ -24,14 +26,14 @@
     <% } else if (user.membership_status = 'member') { %>
       <% messages.forEach((message) => { %>
         <div class="msg-container">
-          <div class="msg-title">Title: <%= message.title %></div>
-          <div class="msg-content">Message: <%= message.content %></div>
-          <div class="msg-author">By: <%= message.first_name %> <%= message.last_name %></div>
+          <div class="msg-title"><strong>Title:</strong>  <%= message.title %></div>
+          <div class="msg-content"><strong>Message: </strong>  <%= message.content %></div>
+          <div class="msg-author"><strong>By: </strong> <%= message.first_name %> <%= message.last_name %></div>
           <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
         </div>
         <% }) %>
     <%} %>  
-    <a href="/log-out">LOG OUT</a>
+    <a href="/log-out">Log out</a>
   <% } else { %>
     <h1><%= title %></h1>
     <form action="/log-in" method="POST">
@@ -44,6 +46,8 @@
     <p>Don't have an account? </p>
     <a href="sign-up-page">Sign up</a>
   <%}%>
+  </main>
+
 
 </body>
 </html>

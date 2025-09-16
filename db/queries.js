@@ -19,7 +19,8 @@ async function getAllDataFromDB() {
     users.first_name,
     users.last_name
     FROM messages
-    JOIN users ON messages.author_id = users.id;
+    JOIN users ON messages.author_id = users.id
+    ORDER BY created_at DESC;
   `);
   return rows;
 }
@@ -35,11 +36,21 @@ async function updateMembershipStatus(id) {
     return rows[0];
 }
 
+async function postMessageToDB(messageTitle, messageContent, authorId){
+  const {rows} = await pool.query(`
+    INSERT INTO messages (title, content, author_id, created_at)
+    VALUES ($1, $2, $3, NOW())
+    RETURNING *;
+  
+  `, [messageTitle, messageContent, authorId]);
+  return rows[0];
+}
 
 export {
   addNewUserToDB,
   getAllDataFromDB,
   updateMembershipStatus,
+  postMessageToDB,
 
 }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <head>
+    <%- include('./partials/head.ejs')%>
+    <link rel="stylesheet" href="/css/style.css">
+    <!-- <script src="./js/script.js"defer></script> -->
+    <title>Post message</title>
+  </head>
+<body>
+  <main>
+      <h1><%= title %></h1>
+  <form action="post-message" method="POST">
+
+    <label for="messageTitle">Message Title</label>
+    <input id="messageTitle" name="messageTitle" placeholder="Message title" type="text" autocomplete="messageTitle"/>
+
+    <label for="messageContent">Message</label>
+    <textarea id="messageContent" name="messageContent" rows="10" cols=30" placeholder="Write your message here..."></textarea>
+    <button type="submit">Submit</button>
+  </form>
+  </main>
+
+</body>
+</html>
