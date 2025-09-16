@@ -20,7 +20,12 @@
               <div class="msg-content"><strong>Message: </strong> <%= message.content %></div>
               <div class="msg-author"><strong>By: </strong> <%= message.first_name %> <%= message.last_name %></div>
               <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
-              <button class="delete">Delete</button>
+              
+              <form action="/delete" method="POST">
+                <input type="hidden" name="id" value="<%= message.id %>">
+                <button class="delete" type="submit">Delete</button>
+              </form>
+              
             </div>
           <% }) %>
         <% } %>

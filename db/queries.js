@@ -13,6 +13,7 @@ async function addNewUserToDB(firstName, lastName, email, password) {
 async function getAllDataFromDB() {
   const {rows} = await pool.query(`
     SELECT 
+    messages.id,
     messages.title,
     messages.content,
     messages.created_at,
@@ -46,11 +47,20 @@ async function postMessageToDB(messageTitle, messageContent, authorId){
   return rows[0];
 }
 
+async function deleteMessageFromDB(id) {
+  const {rows} = await pool.query(`
+  DELETE FROM messages
+  WHERE id = $1;
+  `, [id]);
+  return rows;
+}
+
 export {
   addNewUserToDB,
   getAllDataFromDB,
   updateMembershipStatus,
   postMessageToDB,
-
+  deleteMessageFromDB,
+  
 }
 

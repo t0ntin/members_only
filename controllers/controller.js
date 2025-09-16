@@ -1,4 +1,4 @@
-import {addNewUserToDB, getAllDataFromDB, updateMembershipStatus, postMessageToDB} from '../db/queries.js';
+import {addNewUserToDB, getAllDataFromDB, updateMembershipStatus, postMessageToDB, deleteMessageFromDB} from '../db/queries.js';
 import { body, validationResult } from "express-validator";
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
@@ -60,6 +60,12 @@ const validateUser = [
   }
 ];
 
+async function deleteMessage(req, res) {
+  await deleteMessageFromDB(req.body.id);
+  res.redirect('/');
+  
+}
+
 function getLogOut (req, res, next) {
       req.logout((err) => {
         if (err) return next(err);
@@ -116,6 +122,7 @@ async function postPostmessageView(req, res) {
 export {
   getSignInView,
   postSignInView,
+  deleteMessage,
   getSignUpView,
   signUpPost,
   getUpgradeView,
