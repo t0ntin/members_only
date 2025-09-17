@@ -7,26 +7,31 @@
   <link rel="stylesheet" href="./css/style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Lato&display=swap" rel="stylesheet">
   <!-- <script src="./js/script.js"defer></script> -->
-  <title>sign up</title>
+  <title>Sign up</title>
 </head>
 <body>
-  <h1>Sign up!</h1>
-  <form action="/sign-up" method="POST">
-    <label for="firstName">First name</label>
-    <input id="firstName" name="firstName" placeholder="First name" type="text" autocomplete="firstName"/>
-
-    <label for="lastName">Last name</label>
-    <input id="lastName" name="lastName" placeholder="lastName" type="text" autocomplete="lastName"/>
-
-    <label for="email">Email</label>
-    <input id="email" name="email" type="email" autocomplete="email"/>
-
-    <label for="password">Password</label>
-    <input id="password" name="password" type="password" autocomplete="current-password"/>
-
   
 
-    <button type="submit">Sign Up</button>
-  </form>
+    <h1><%= title %></h1>
+    <form action="/sign-up" method="POST">
+      <label for="firstName">First name</label>
+      <input id="firstName" name="firstName" placeholder="First name" type="text" value="<%= typeof oldInput !== 'undefined' ? oldInput.firstName : '' %>" autocomplete="firstName"/>
+  
+      <label for="lastName">Last name</label>
+      <input id="lastName" name="lastName" placeholder="lastName" type="text" value="<%= typeof oldInput !== 'undefined' ? oldInput.lastName : '' %>" autocomplete="lastName"/>
+  
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" value="<%= typeof oldInput !== 'undefined' ? oldInput.email : '' %>" autocomplete="email"/>
+  
+      <label for="password">Password</label>
+      <input id="password" name="password" type="password" autocomplete="current-password"/>
+  
+      <%- include("partials/errors.ejs") %>
+
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <p>Go to<a href="/">login page</a></p>
+   
 </body>
 </html>

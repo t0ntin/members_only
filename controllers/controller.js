@@ -3,31 +3,31 @@ import { body, validationResult } from "express-validator";
 import bcrypt from 'bcryptjs';
 import passport from 'passport';
 
-const validateUser = [
-  body('email').trim().isEmail().withMessage('Enter a valid email').normalizeEmail(),
+const validateSignIn = [
+  body("email").trim().isEmail().withMessage("Enter a valid email").normalizeEmail(),
   body("password")
-  .isLength({ min: 6 })
-  .withMessage("Password must be at least 6 characters long"),
-]
+    .notEmpty()
+    .withMessage("Password is required"),
+];
 
- async function getSignInView (req, res) {
+async function getSignInView (req, res) {
   const messages = await getAllDataFromDB();
   // console.log('All info is: ', messages);
   // console.log('req.user is: ', req.user);
   res.render("index", { title: "Sign in", user: req.user, messages });
- }
+}
   
- const postSignInView = [
-  validateUser,
-  async (req, res, next) => {
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      return res.status(400).render("index", { 
-        title: "Sign in", 
-        user: null, 
-        oldInput: req.body, 
-        errors: errors.array(), 
-        messages: [] 
+const postSignInView = [
+  validateSignIn,
+    async (req, res, next) => {
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).render("index", { 
+          title: "Sign in", 
+          user: null, 
+          oldInput: req.body, 
+          errors: errors.array(), 
+          messages: [] 
       });
     }
 
@@ -74,21 +74,59 @@ function getLogOut (req, res, next) {
 }
 
 async function getSignUpView(req, res) {
-  res.render('sign-up-page', {title: 'Sign up'});
+  res.render('sign-up-page', {title: 'Sign up', user: null });
 }
 
-async function signUpPost(req, res, next) {
-  try {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    const {firstName, lastName, email} = req.body;
-    await addNewUserToDB(firstName, lastName, email, hashedPassword);
-    res.redirect('/');
+const validateSignUp = [
+  body("firstName").trim().notEmpty().withMessage("First name is required"),
+  body("lastName").trim().notEmpty().withMessage("Last name is required"),
+  body("email").trim().isEmail().withMessage("Enter a valid email").normalizeEmail(),
+  body("password")
+    .isLength({ min: 6 })
+    .withMessage("Password must be at least 6 characters long"),
+];
 
-  } catch (error) {
-    console.error(error);
-    next(error);
+const signUpPost = [
+  validateSignUp,
+  async (req, res, next) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).render("sign-up-page", { 
+        title: "Sign up", 
+        user: req.user, 
+        oldInput: req.body, 
+        errors: errors.array(), 
+        messages: [],
+    });
+  
+    } 
+  
+    try {
+      const hashedPassword = await bcrypt.hash(req.body.password, 10);
+      const {firstName, lastName, email} = req.body;
+      await addNewUserToDB(firstName, lastName, email, hashedPassword);
+      // res.redirect('/');
+      res.render('sign-up-page', {title: 'Success!', user: req.user, oldInput: req.body, })
+  
+    } catch (error) {
+      console.error(error);
+      next(error);
+    }
   }
-}
+]
+
+// async function signUpPost(req, res, next) {
+//   try {
+//     const hashedPassword = await bcrypt.hash(req.body.password, 10);
+//     const {firstName, lastName, email} = req.body;
+//     await addNewUserToDB(firstName, lastName, email, hashedPassword);
+//     res.redirect('/');
+
+//   } catch (error) {
+//     console.error(error);
+//     next(error);
+//   }
+// }
 
 function getUpgradeView(req, res) {
   res.render('upgrade', {title: "Upgrade", answer: null})

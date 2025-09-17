@@ -21,7 +21,7 @@
               <div class="msg-author"><strong>By: </strong> <%= message.first_name %> <%= message.last_name %></div>
               <div class="msg-created-at"><%= message.created_at.toLocaleString() %></div>
               
-              <form action="/delete" method="POST">
+              <form class="form-for-button" action="/delete" method="POST">
                 <input type="hidden" name="id" value="<%= message.id %>">
                 <button class="delete" type="submit">Delete</button>
               </form>

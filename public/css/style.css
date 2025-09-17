@@ -57,6 +57,8 @@ a {
   text-decoration: none;
   padding: 2px 6px;
   border-radius: 6px;
+  font-size: 1.2rem;
+  font-weight: bold;
 }
 
 a:hover {
@@ -87,9 +89,13 @@ main {
   align-items: center;
 }
 
+h1 {
+  margin: 0 0 7px 0;
+}
+
 .msg-container {
-  min-width: 280px;
-  max-width: 400px;
+  min-width: 300px;
+  max-width: 350px;
   background-color: #1a1a1a;
   border: 1px solid #333;
   border-radius: 10px;
@@ -103,7 +109,7 @@ main {
 .msg-title {
   font-size: 1.2rem;
   /* font-weight: bold; */
-  color: #4da6ff;
+  color: #2dcbff;
   margin-bottom: 8px;
 }
 
@@ -141,6 +147,12 @@ form {
   background-color: #1f1f1f;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.form-for-button {
+  box-shadow: none;
+  background-color: rgba(255, 255, 255, 0);
+  padding: 0;
 }
 
 label {
