@@ -16,7 +16,7 @@ async function getSignInView (req, res) {
   // console.log('req.user is: ', req.user);
   res.render("index", { title: "Sign in", user: req.user, messages });
 }
-  
+
 const postSignInView = [
   validateSignIn,
     async (req, res, next) => {

@@ -9,7 +9,8 @@ import { Strategy as LocalStrategy } from 'passport-local';
 import connectPgSimple from "connect-pg-simple";
 import router from './routes/router.js';
 import bcrypt from 'bcryptjs';
-
+import dotenv from "dotenv";
+dotenv.config();
 const PgSession = connectPgSimple(session);
 
 const app = express();
